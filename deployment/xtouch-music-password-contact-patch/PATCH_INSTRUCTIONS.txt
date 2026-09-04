@@ -1,0 +1,33 @@
+X'TOUCH CPANEL UPDATE - MUSIC APPROVAL/PLAYBACK, CONTACT AND PASSWORD RESET
+
+This archive contains only the frontend release and backend files required by
+this update. It does not contain .env, vendor, the database or uploaded media.
+
+1. Upload the CONTENTS of public_html into:
+   /home/asapwg/xtouchentertainments.com
+   Replace matching files and include the hidden .htaccess file.
+
+2. Upload the CONTENTS of xtouch-backend into:
+   /home/asapwg/xtouch-backend
+   Preserve the included folders and replace matching files.
+
+3. In cPanel Terminal run:
+   cd /home/asapwg/xtouch-backend
+   chmod -R 775 storage bootstrap/cache
+   php artisan optimize:clear
+   php artisan config:cache
+   php artisan view:cache
+
+4. Verify the existing track now responds with playable audio:
+   https://xtouchentertainments.com/api/tracks/2/stream
+
+5. Upload a new music post. It must say "Submitted for admin approval" and
+   appear under Admin > Tracks with Pending status. Approving it publishes the
+   linked feed post, adds it to Music, and notifies its owner.
+
+6. Verify:
+   https://xtouchentertainments.com/contact
+   https://xtouchentertainments.com/admin/forgot-password
+
+The contact phone number is +233 24 720 2340. Password-reset delivery uses the
+SMTP configuration saved in Admin > Email Settings.

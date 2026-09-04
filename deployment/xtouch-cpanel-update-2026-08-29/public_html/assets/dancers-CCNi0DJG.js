@@ -1,0 +1,1 @@
+var e=`/assets/dancers-CYDEjcHM.jpg`;export{e as t};

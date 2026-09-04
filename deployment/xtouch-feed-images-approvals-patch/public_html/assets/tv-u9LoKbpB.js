@@ -1,0 +1,1 @@
+var e=`/assets/tv-BszA4-os.jpg`;export{e as t};

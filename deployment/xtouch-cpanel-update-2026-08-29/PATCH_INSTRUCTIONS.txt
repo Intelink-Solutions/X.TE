@@ -1,0 +1,43 @@
+X'TOUCH CPANEL PATCH - IMAGES, NOTIFICATIONS, SPEED, SPLASH AND PASSWORD RESET
+
+This archive contains only replacement/new files. It does not contain .env,
+vendor, the database, uploaded media, or the complete application.
+
+1. Upload the CONTENTS of public_html into the domain document root:
+   /home/asapwg/xtouchentertainments.com
+   Ensure hidden files are visible so .htaccess is replaced.
+
+2. Upload the CONTENTS of xtouch-backend into:
+   /home/asapwg/xtouch-backend
+   Preserve the included directory structure.
+
+3. Do NOT add PUBLIC_STORAGE_PATH to .env. The confirmed media location is:
+   /home/asapwg/xtouch-backend/storage/app/public
+   Existing and future images are served through /api/media, so a public_html
+   storage symlink is not required.
+
+4. Make the backend storage writable by the cPanel account:
+   chmod -R 775 /home/asapwg/xtouch-backend/storage
+   chmod -R 775 /home/asapwg/xtouch-backend/bootstrap/cache
+
+5. The Email setup 403 means the signed-in account is not assigned an admin
+   role. Run this with the exact email address used to sign in:
+   cd /home/asapwg/xtouch-backend
+   php artisan xtouch:grant-admin YOUR_LOGIN_EMAIL
+
+6. Clear and rebuild Laravel caches:
+   php artisan optimize:clear
+   php artisan config:cache
+   php artisan view:cache
+
+7. Test:
+   https://xtouchentertainments.com/admin/email-settings
+   https://xtouchentertainments.com/api/media/feed-posts/IMAGE_FILENAME.jpg
+   https://xtouchentertainments.com/admin/forgot-password
+
+Old /storage image URLs are automatically translated to /api/media, including
+historical feed posts and notification thumbnails. New uploads are checked
+before a feed record is created. Broken images fall back to a clean icon.
+Users receive specific in-app messages for account, creator, music, posting,
+and post approvals. The frontend package includes faster cached requests,
+compressed static delivery, a mobile loading splash, and Forgot password.

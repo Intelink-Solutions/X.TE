@@ -1,0 +1,33 @@
+DirectoryIndex index.html index.php
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Laravel owns the API, control panel and its runtime endpoints.
+    RewriteCond %{REQUEST_URI} ^/(api|admin|sanctum|livewire|user)(/|$) [NC]
+    RewriteRule ^ index.php [L,QSA]
+
+    # Serve built frontend files and Laravel public assets directly.
+    RewriteCond %{REQUEST_FILENAME} -f [OR]
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule ^ - [L]
+
+    # Let Laravel serve public uploads when public_html/storage is not linked.
+    RewriteCond %{REQUEST_URI} ^/storage/ [NC]
+    RewriteRule ^ index.php [L,QSA]
+
+    # TanStack client-side route fallback.
+    RewriteRule ^ index.html [L]
+</IfModule>
+
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    Header always set X-Frame-Options "SAMEORIGIN"
+</IfModule>
+
+<IfModule mod_headers.c>
+    <FilesMatch "\.(?:css|js|mjs|png|jpg|jpeg|gif|svg|webp|ico|woff2?)$">
+        Header set Cache-Control "public, max-age=31536000, immutable"
+    </FilesMatch>
+</IfModule>

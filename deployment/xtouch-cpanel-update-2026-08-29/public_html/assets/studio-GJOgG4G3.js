@@ -1,0 +1,1 @@
+var e=`/assets/studio-C_EG69NR.jpg`;export{e as t};
